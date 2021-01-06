@@ -170,10 +170,29 @@ class HydroponicsSettingsForm extends ConfigFormBase {
           '#default_value' => isset($enabled_queues[$name]) ? TRUE: FALSE
         ]
       ];
-
     }
 
-      return parent::buildForm($form, $form_state);
+    $form['advanced'] = [
+      '#type' => 'details',
+      '#title' => t('Advanced settings'),
+      '#open' => FALSE,
+    ];
+    $form['advanced']['drush_path'] = [
+      '#type' => 'textfield',
+      '#title' => t('Drush path'),
+      '#default_value' => $config->get('drush_path') ? $config->get('drush_path') : "",
+      '#size' => 80,
+      '#description' => t('Path to Drush command if not available globally. Leave blank if it is not needed.'),
+    ];
+    $form['advanced']['home_path'] = [
+      '#type' => 'textfield',
+      '#title' => t('HOME path'),
+      '#default_value' => $config->get('home_path') ? $config->get('home_path') : "",
+      '#size' => 80,
+      '#description' => t('HOME path to set before run Drush. Leave blank if it is not needed.'),
+    ];
+    
+    return parent::buildForm($form, $form_state);
   }
 
 

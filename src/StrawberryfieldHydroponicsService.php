@@ -158,9 +158,20 @@ class StrawberryfieldHydroponicsService {
         error_log('last time seen was:'.$lastRunTime);
         error_log('Time passed:'.($currentTime -$lastRunTime));
         $cmd = 'drush archipelago:hydroponics --uri=' . $base_url;
-        $pid = exec(
-          sprintf("nohup %s > /tmp/hydroponics.log 2>&1 & echo $!", $cmd)
+        
+        $drush_path = $config->get('drush_path');
+        if (isset($drush_path) && $drush_path !== '') {
+          $cmd = $drush_path . "/" . $cmd;
+        }
+        $home_path = $config->get('home_path');
+        if (isset($home_path) && $home_path !== '') {
+          $cmd = "export HOME='" . $home_path . "' ; " . $cmd;
+        }
+
+        $pid = shell_exec(
+          sprintf("%s > /dev/null 2>&1 & echo $!", $cmd)
         );
+
         \Drupal::state()->set('hydroponics.queurunner_last_pid', $pid);
         error_log('New PID'. $pid);
       } else {

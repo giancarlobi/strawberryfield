@@ -196,3 +196,9 @@ strawberryfield.hydroponics_settings:
       sequence:
         type: string
         label: 'Queue Names'
+    drush_path:
+      type: path
+      label: 'Path to Drush or empty'
+    home_path:
+      type: path
+      label: 'HOME path to set before run Drush or empty'
